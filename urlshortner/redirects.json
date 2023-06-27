@@ -1,0 +1,14 @@
+[
+  {
+    "path": "/go",
+    "url": "https://go.dev/"
+  },
+  {
+    "path": "/go-docs",
+    "url": "https://go.dev/doc/"
+  },
+  {
+    "path": "/go-pkgs",
+    "url": "https://godocs.io"
+  }
+]

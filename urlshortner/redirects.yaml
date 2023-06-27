@@ -1,0 +1,6 @@
+- path: /developer
+  url: https://github.com/PaulSedra
+- path: /project
+  url: https://github.com/PaulSedra/gophercises
+- path: /urlshortner
+  url: https://github.com/PaulSedra/gophercises/urlshortner
