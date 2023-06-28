@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{.Title}}</title>
+  <style>
+    /* Add your custom CSS styling here */
+  </style>
+</head>
+<body>
+  <h1>{{.Title}}</h1>
+
+  {{range .Story}}
+    <p>{{.}}</p>
+  {{end}}
+
+  <hr>
+
+  <h2>Options:</h2>
+  <ul>
+    {{range .Options}}
+      <li><a href="/{{.Arc}}">{{.Text}}</a></li>
+    {{end}}
+  </ul>
+</body>
+</html>
