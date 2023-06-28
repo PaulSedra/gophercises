@@ -14,6 +14,7 @@ func main() {
 	// define YAML/JSON flags
 	yamlFile := flag.String("yaml", "urlshortner/redirects.yaml", "path to the YAML file")
 	jsonFile := flag.String("json", "urlshortner/redirects.json", "path to the JSON file")
+	dbFile := flag.String("db", "urlshortner/redirects.db", "path to the DB file")
 	flag.Parse()
 
 	mux := defaultMux()
@@ -30,7 +31,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
 	// build YAMLHandler w/ MapHandler as fallback
 	yamlHandler, err := urlshortner.YAMLHandler(yamlContent, mapHandler)
 	if err != nil {
@@ -42,15 +42,25 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
 	// build JSONHandler w/ MapHandler as fallback
 	jsonHandler, err := urlshortner.JSONHandler(jsonContent, yamlHandler)
 	if err != nil {
 		panic(err)
 	}
 
+	// open db or create one if it doesn't already exist
+	db, err := urlshortner.InitializeDB(*dbFile)
+	if err != nil {
+		panic(err)
+	}
+	// build DBHandler w/ MapHandler as fallback
+	dbHandler := urlshortner.DBHandler(db, jsonHandler)
+	if err != nil {
+		panic(err)
+	}
+
 	fmt.Println("Starting the server on :8080")
-	http.ListenAndServe(":8080", jsonHandler)
+	http.ListenAndServe(":8080", dbHandler)
 }
 
 // default multiplexer
