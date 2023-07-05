@@ -1,4 +1,4 @@
-package urlshortner
+package db
 
 import (
 	"fmt"

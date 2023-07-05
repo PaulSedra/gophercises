@@ -1,4 +1,4 @@
-package urlshortner
+package handler
 
 import (
 	"encoding/json"

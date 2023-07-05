@@ -3,10 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/PaulSedra/gophercises/urlshortner/pkg/db"
+	"github.com/PaulSedra/gophercises/urlshortner/pkg/handler"
 	"net/http"
 	"os"
-
-	"github.com/PaulSedra/gophercises/urlshortner"
 )
 
 func main() {
@@ -24,7 +24,7 @@ func main() {
 		"/gophercises": "https://gophercises.com/",
 		"/course":      "https://courses.calhoun.io/courses/cor_gophercises",
 	}
-	mapHandler := urlshortner.MapHandler(pathsToUrls, mux)
+	mapHandler := handler.MapHandler(pathsToUrls, mux)
 
 	// read YAML file
 	yamlContent, err := os.ReadFile(*yamlFile)
@@ -32,7 +32,7 @@ func main() {
 		panic(err)
 	}
 	// build YAMLHandler w/ MapHandler as fallback
-	yamlHandler, err := urlshortner.YAMLHandler(yamlContent, mapHandler)
+	yamlHandler, err := handler.YAMLHandler(yamlContent, mapHandler)
 	if err != nil {
 		panic(err)
 	}
@@ -43,18 +43,18 @@ func main() {
 		panic(err)
 	}
 	// build JSONHandler w/ MapHandler as fallback
-	jsonHandler, err := urlshortner.JSONHandler(jsonContent, yamlHandler)
+	jsonHandler, err := handler.JSONHandler(jsonContent, yamlHandler)
 	if err != nil {
 		panic(err)
 	}
 
 	// open db or create one if it doesn't already exist
-	db, err := urlshortner.InitializeDB(*dbFile)
+	db, err := db.InitializeDB(*dbFile)
 	if err != nil {
 		panic(err)
 	}
 	// build DBHandler w/ MapHandler as fallback
-	dbHandler := urlshortner.DBHandler(db, jsonHandler)
+	dbHandler := handler.DBHandler(db, jsonHandler)
 	if err != nil {
 		panic(err)
 	}
