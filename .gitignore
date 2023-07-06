@@ -22,3 +22,7 @@ go.work
 
 # JetBrains
 .idea/
+
+# BoltDB
+*.db
+*.db.lock
